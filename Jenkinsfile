@@ -30,10 +30,16 @@ pipeline {
 }
 
         stage('Test') {
-            steps {
-                echo 'Test stage – implement me'
-            }
+    steps {
+        echo 'Running unit tests...'
+        sh 'npm test -- --testPathPattern=unit --ci --reporters=default --reporters=jest-junit'
+    }
+    post {
+        always {
+            junit allowEmptyResults: true, testResults: 'junit.xml'
         }
+    }
+}
 
         stage('Code Quality') {
             steps {
