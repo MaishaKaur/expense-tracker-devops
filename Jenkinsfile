@@ -21,7 +21,7 @@ pipeline {
         echo 'Installing dependencies and building...'
         sh '''
             docker run --rm \
-              -v $(pwd):/app \
+              -v "${WORKSPACE}":/app \
               -w /app \
               node:20-alpine \
               sh -c "npm install && npm run build"
