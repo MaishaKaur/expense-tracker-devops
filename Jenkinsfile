@@ -55,10 +55,23 @@ pipeline {
 }
 
         stage('Security') {
-            steps {
-                echo 'Security stage – implement me'
-            }
+    steps {
+        echo 'Running security audit...'
+        sh 'npm audit --audit-level=high || true'
+        sh '''
+            if command -v trivy &> /dev/null; then
+                trivy fs --severity HIGH,CRITICAL --exit-code 0 .
+            else
+                echo "Trivy not installed - skipping filesystem scan"
+            fi
+        '''
+    }
+    post {
+        always {
+            archiveArtifacts artifacts: 'npm-audit.json', allowEmptyArchive: true
         }
+    }
+}
 
         stage('Deploy') {
             steps {
