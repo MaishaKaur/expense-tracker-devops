@@ -19,13 +19,8 @@ pipeline {
         stage('Build') {
     steps {
         echo 'Installing dependencies and building...'
-        sh '''
-            docker run --rm \
-              -v "${WORKSPACE}":/app \
-              -w /app \
-              node:20-alpine \
-              sh -c "npm install && npm run build"
-        '''
+        sh 'npm install'
+        sh 'npm run build'
     }
     post {
         success {
