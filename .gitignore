@@ -1,0 +1,10 @@
+node_modules/
+dist/
+coverage/
+.env
+*.log
+eslint-report/
+security-reports/
+monitoring-reports/
+release-artifacts/
+*-test-results.xml

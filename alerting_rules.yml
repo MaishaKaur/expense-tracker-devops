@@ -1,0 +1,35 @@
+groups:
+  - name: app_availability
+    rules:
+      - alert: AppDown
+        expr: up{job="expensetracker-app"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "ExpenseTracker app is DOWN"
+          description: "The app has been unreachable for > 1 minute."
+
+      - alert: HighErrorRate
+        expr: >
+          rate(http_requests_total{job="expensetracker-app",status=~"5.."}[5m])
+          / rate(http_requests_total{job="expensetracker-app"}[5m]) > 0.05
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High HTTP 5xx error rate"
+          description: "Error rate is {{ $value | humanizePercentage }}."
+
+  - name: performance
+    rules:
+      - alert: HighLatency
+        expr: >
+          histogram_quantile(0.95,
+            rate(http_request_duration_seconds_bucket{job="expensetracker-app"}[5m])
+          ) > 2
+        for: 3m
+        labels:
+          severity: warning
+        annotations:
+          summary: "P95 latency above 2s"

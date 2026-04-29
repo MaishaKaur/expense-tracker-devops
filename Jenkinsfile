@@ -1,0 +1,67 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_IMAGE = 'expensetracker'
+        DOCKER_TAG   = "${env.BUILD_NUMBER}"
+        APP_NAME     = 'expensetracker'
+        SONAR_SERVER = 'SonarQube'
+    }
+
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+        timeout(time: 30, unit: 'MINUTES')
+        timestamps()
+        ansiColor('xterm')
+    }
+
+    stages {
+
+        stage('Build') {
+            steps {
+                echo 'Build stage – implement me'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Test stage – implement me'
+            }
+        }
+
+        stage('Code Quality') {
+            steps {
+                echo 'Code Quality stage – implement me'
+            }
+        }
+
+        stage('Security') {
+            steps {
+                echo 'Security stage – implement me'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploy stage – implement me'
+            }
+        }
+
+        stage('Release') {
+            steps {
+                echo 'Release stage – implement me'
+            }
+        }
+
+        stage('Monitoring') {
+            steps {
+                echo 'Monitoring stage – implement me'
+            }
+        }
+
+    }
+
+    post {
+        always { cleanWs() }
+    }
+}

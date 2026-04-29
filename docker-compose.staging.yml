@@ -1,0 +1,12 @@
+services:
+  app:
+    image: ${DOCKER_IMAGE_TAG:-expensetracker:latest}
+    environment:
+      NODE_ENV: staging
+      DATABASE_URL: postgresql://expenseuser:expensepassword@postgres:5432/expensedb_staging
+      JWT_SECRET: staging-secret-key
+    ports:
+      - "3100:3000"
+  postgres:
+    environment:
+      POSTGRES_DB: expensedb_staging
