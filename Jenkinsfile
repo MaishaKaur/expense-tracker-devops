@@ -42,10 +42,17 @@ pipeline {
 }
 
         stage('Code Quality') {
-            steps {
-                echo 'Code Quality stage – implement me'
+    steps {
+        echo 'Running ESLint...'
+        sh 'npm run lint || true'
+        script {
+            def scannerHome = tool 'SonarQube Scanner'
+            withSonarQubeEnv('SonarQube') {
+                sh "${scannerHome}/bin/sonar-scanner"
             }
         }
+    }
+}
 
         stage('Security') {
             steps {
