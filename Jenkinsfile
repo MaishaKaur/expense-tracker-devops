@@ -17,10 +17,17 @@ pipeline {
     stages {
 
         stage('Build') {
-            steps {
-                echo 'Build stage – implement me'
-            }
+    steps {
+        echo 'Installing dependencies and building...'
+        sh 'npm install'
+        sh 'npm run build'
+    }
+    post {
+        success {
+            archiveArtifacts artifacts: 'dist/**/*', fingerprint: true
         }
+    }
+}
 
         stage('Test') {
             steps {
